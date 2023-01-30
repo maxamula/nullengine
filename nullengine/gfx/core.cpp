@@ -107,4 +107,77 @@ namespace null::gfx
 	}
 #pragma endregion
 
+#pragma region DEPTH_STENCIL
+
+	DepthStencilBuffer::DepthStencilBuffer(unsigned short width, unsigned short height)
+		: m_width(width), m_height(height)
+	{
+		_CreateInterfaces();
+	}
+
+	void DepthStencilBuffer::Release()
+	{
+		RELEASE(m_depthStencilBuffer);
+		RELEASE(m_depthStencilView);
+	}
+
+	void DepthStencilBuffer::Resize(unsigned short width, unsigned short height)
+	{
+		Release();
+		m_width = width;
+		m_height = height;
+		_CreateInterfaces();
+	}
+
+	void DepthStencilBuffer::_CreateInterfaces()
+	{
+		D3D11_TEXTURE2D_DESC depthStencilBufferDesc{};
+		depthStencilBufferDesc.Width = m_width;
+		depthStencilBufferDesc.Height = m_height;
+		depthStencilBufferDesc.MipLevels = 1;
+		depthStencilBufferDesc.ArraySize = 1;
+		depthStencilBufferDesc.Format = DXGI_FORMAT_D24_UNORM_S8_UINT;
+		depthStencilBufferDesc.SampleDesc.Count = 1;
+		depthStencilBufferDesc.SampleDesc.Quality = 0;
+		depthStencilBufferDesc.Usage = D3D11_USAGE_DEFAULT;
+		depthStencilBufferDesc.BindFlags = D3D11_BIND_DEPTH_STENCIL;
+		assert(d3ddev->CreateTexture2D(&depthStencilBufferDesc, nullptr, &m_depthStencilBuffer) == S_OK);
+
+		D3D11_DEPTH_STENCIL_VIEW_DESC depthStencilViewDesc{};
+		depthStencilViewDesc.Format = depthStencilBufferDesc.Format;
+		depthStencilViewDesc.ViewDimension = D3D11_DSV_DIMENSION_TEXTURE2D;
+		depthStencilViewDesc.Texture2D.MipSlice = 0;
+		assert(d3ddev->CreateDepthStencilView(m_depthStencilBuffer, &depthStencilViewDesc, &m_depthStencilView) == S_OK);
+
+		D3D11_DEPTH_STENCIL_DESC depthStencilDesc{};
+		depthStencilDesc.DepthEnable = TRUE;
+		depthStencilDesc.DepthWriteMask = D3D11_DEPTH_WRITE_MASK_ALL;
+		depthStencilDesc.DepthFunc = D3D11_COMPARISON_LESS;
+		d3ddev->CreateDepthStencilState(&depthStencilDesc, &m_depthStencilState);
+	}
+#pragma endregion
+
+#pragma region VIEWPORT
+
+	Viewport::Viewport(unsigned short width, unsigned short height)
+	{
+		m_viewport.TopLeftX = 0.0f;
+		m_viewport.TopLeftY = 0.0f;
+		m_viewport.Width = width;
+		m_viewport.Height = height;
+		m_viewport.MinDepth = 0.0f;
+		m_viewport.MaxDepth = 1.0f;
+	}
+	void Viewport::Set()
+	{
+		d3dctx->RSSetViewports(1, &m_viewport);
+	}
+
+	void Viewport::Resize(unsigned short width, unsigned short height)
+	{
+		m_viewport.Width = width;
+		m_viewport.Height = height;
+	}
+#pragma endregion
+
 }

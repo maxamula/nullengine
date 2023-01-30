@@ -33,5 +33,42 @@ namespace null::gfx
 		ID3D11RenderTargetView* m_renderTargets[BACKBUFFER_COUNT]{};
 		uint8_t m_bufferIndex = 0;
 	};
+
+	class DepthStencilBuffer
+	{
+	public:
+		DepthStencilBuffer() = default;
+		DISABLE_COPY(DepthStencilBuffer);
+		DISABLE_MOVE(DepthStencilBuffer);
+		explicit DepthStencilBuffer(unsigned short width, unsigned short height);
+
+		void Release();
+
+		void Resize(unsigned short width, unsigned short height);
+
+	private:
+		void _CreateInterfaces();
+
+		ID3D11Texture2D* m_depthStencilBuffer = NULL;
+		ID3D11DepthStencilView* m_depthStencilView = NULL;
+		ID3D11DepthStencilState* m_depthStencilState = NULL;
+		unsigned short m_width = 0;
+		unsigned short m_height = 0;
+	};
+
+	class Viewport
+	{
+	public:
+		Viewport() = default;
+		DISABLE_COPY(Viewport);
+		DISABLE_MOVE(Viewport);
+
+		explicit Viewport(unsigned short width, unsigned short height);
+		void Set();
+		void Resize(unsigned short width, unsigned short height);
+
+	private:
+		D3D11_VIEWPORT m_viewport{};
+	};
 }
 
