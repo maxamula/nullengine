@@ -2,11 +2,18 @@
 <Project ToolsVersion="4.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
   <ItemGroup>
     <ClInclude Include="engine.h" />
-    <ClInclude Include="gfx\core.h" />
+    <ClInclude Include="gfx\gfx.h" />
     <ClInclude Include="common.h" />
+    <ClInclude Include="gfx\shaders.h" />
+    <ClInclude Include="ecs.h" />
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="engine.cpp" />
-    <ClCompile Include="gfx\core.cpp" />
+    <ClCompile Include="gfx\gfx.cpp" />
+    <ClCompile Include="gfx\shaders.cpp" />
+    <ClCompile Include="ecs.cpp" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="packages.config" />
   </ItemGroup>
 </Project>

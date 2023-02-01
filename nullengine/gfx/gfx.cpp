@@ -1,4 +1,4 @@
-#include "core.h"
+#include "gfx.h"
 
 extern HINSTANCE g_hInst;
 
