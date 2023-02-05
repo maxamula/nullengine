@@ -1,29 +1,34 @@
 #pragma once
+#include "components.h"
+
 #include <DirectXMath.h>
-#include <entt/entt.hpp>
 
 using namespace DirectX;
 
 namespace null
 {
-	class ObjectBase;
 	class Object;
-	class Scene;
 
-	class ObjectBase
+	class ObjectRoot
 	{
 	public:
-		virtual void Add() = 0;
+		virtual Object* Add() = 0;
 		virtual void Detach(Object* obj) = 0;
+		virtual XMMATRIX GetRelativeTransformation() = 0;
 	};
 
-	class Object : public ObjectBase
+	class Object : public ObjectRoot
 	{
+	public:
+		virtual void Release() = 0;
+		virtual Trasformation& GetTransformation() = 0;
+	};
+
+	class Scene : public ObjectRoot
+	{
+	public:
 		virtual void Release() = 0;
 	};
 
-	class Scene : public ObjectBase
-	{
-
-	};
+	Scene& CreateScene();
 }

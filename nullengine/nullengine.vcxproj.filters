@@ -6,12 +6,14 @@
     <ClInclude Include="common.h" />
     <ClInclude Include="gfx\shaders.h" />
     <ClInclude Include="ecs.h" />
+    <ClInclude Include="components.h" />
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="engine.cpp" />
     <ClCompile Include="gfx\gfx.cpp" />
     <ClCompile Include="gfx\shaders.cpp" />
     <ClCompile Include="ecs.cpp" />
+    <ClCompile Include="components.cpp" />
   </ItemGroup>
   <ItemGroup>
     <None Include="packages.config" />
